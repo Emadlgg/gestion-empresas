@@ -1,45 +1,42 @@
-# Sistema de Gestión de Empresas
+# Gestión de Empresas
 
-Aplicación web desarrollada para la administración de empresas mediante operaciones CRUD (Crear, Consultar, Actualizar y Eliminar).
+Aplicación web para la administración de empresas mediante operaciones CRUD (Crear, Consultar, Actualizar y Eliminar).
 
-El proyecto está dividido en un frontend desarrollado con Angular y una API REST construida con Node.js y Express. La información se almacena de forma persistente en PostgreSQL.
+El sistema cuenta con un frontend desarrollado en Angular, una API REST construida con Node.js y Express, y una base de datos PostgreSQL para almacenar la información de forma persistente.
 
 ## Tecnologías utilizadas
 
-### Frontend
-- Angular 21
-- TypeScript
+**Frontend**
+- Angular 21 y TypeScript
 - HTML5 y CSS3
 - Angular Reactive Forms
 - Angular Signals
-- HttpClient
-- Angular Router
+- HttpClient y Angular Router
 
-### Backend
-- Node.js
-- Express
+**Backend**
+- Node.js y Express
 - PostgreSQL
 - node-postgres (`pg`)
-- dotenv
-- CORS
-- Nodemon
+- CORS y dotenv
+
+**Despliegue**
+- Firebase Hosting — Frontend
+- Render — API REST
+- Neon — PostgreSQL
 
 ## Funcionalidades
 
-- Listado general de empresas registradas.
+- Listado de empresas registradas.
 - Registro de nuevas empresas.
 - Consulta del detalle de una empresa.
-- Actualización de la información de empresas.
+- Edición de empresas, manteniendo el correo electrónico como campo no editable.
 - Eliminación de empresas con confirmación.
-- Validación de campos obligatorios.
-- Validación de correo electrónico y teléfono.
-- Validación del formato y dígito verificador del NIT guatemalteco tradicional.
-- Restricción para impedir la modificación del correo electrónico durante la edición.
-- Control de registros duplicados mediante restricciones de base de datos.
-- Mensajes de confirmación y manejo de errores.
+- Validación de campos obligatorios, teléfono, correo electrónico y NIT guatemalteco.
+- Control de registros duplicados.
+- Mensajes de éxito y manejo de errores.
 - Actualización del listado sin recargar la página.
 - Filas alternadas en colores celeste y verde.
-- Diseño adaptable a diferentes tamaños de pantalla.
+- Interfaz adaptable a diferentes tamaños de pantalla.
 
 ## Estructura del proyecto
 
@@ -48,26 +45,20 @@ gestion-empresas/
 ├── backend/
 │   ├── src/
 │   │   ├── config/
-│   │   │   └── database.js
 │   │   ├── controllers/
-│   │   │   └── empresa.controller.js
 │   │   ├── routes/
-│   │   │   └── empresa.routes.js
 │   │   ├── validators/
-│   │   │   └── nit.validator.js
 │   │   └── app.js
 │   ├── .env.example
 │   └── package.json
 ├── frontend/
 │   ├── src/
-│   │   └── app/
-│   │       ├── models/
-│   │       ├── services/
-│   │       ├── validators/
-│   │       └── pages/
-│   │           ├── empresas-lista/
-│   │           ├── empresa-formulario/
-│   │           └── empresa-detalle/
+│   │   ├── app/
+│   │   │   ├── models/
+│   │   │   ├── services/
+│   │   │   ├── validators/
+│   │   │   └── pages/
+│   │   └── environments/
 │   ├── angular.json
 │   └── package.json
 ├── database/
@@ -76,17 +67,14 @@ gestion-empresas/
 └── README.md
 ```
 
-## Requisitos previos
+## Instalación y ejecución local
 
-Para ejecutar el proyecto localmente es necesario contar con:
+### Requisitos previos
 
-- Node.js compatible con Angular 21.
-- npm.
-- PostgreSQL.
-- Angular CLI.
-- Git (opcional para la ejecución local).
-
-## Instalación y configuración
+- Node.js compatible con Angular 21
+- npm
+- PostgreSQL
+- Angular CLI
 
 ### 1. Clonar el repositorio
 
@@ -95,21 +83,15 @@ git clone https://github.com/Emadlgg/gestion-empresas.git
 cd gestion-empresas
 ```
 
+Reemplazar `https://github.com/Emadlgg/gestion-empresas.git` por el enlace correspondiente de GitHub.
+
 ### 2. Configurar PostgreSQL
 
-Crear una base de datos llamada:
+Crear una base de datos llamada `gestion_empresas`.
 
-```sql
-CREATE DATABASE gestion_empresas;
-```
+Posteriormente, ejecutar el archivo `database/schema.sql` sobre esa base de datos para crear la tabla `empresas`.
 
-Conectarse a la base de datos `gestion_empresas` y ejecutar el archivo:
-
-```text
-database/schema.sql
-```
-
-Este archivo contiene la estructura de la tabla `empresas`.
+La tabla contiene los campos solicitados para cada empresa, además de un identificador y una fecha de creación.
 
 ### 3. Configurar el backend
 
@@ -117,15 +99,10 @@ Ingresar a la carpeta:
 
 ```bash
 cd backend
-```
-
-Instalar las dependencias:
-
-```bash
 npm install
 ```
 
-Crear un archivo `.env` utilizando `.env.example` como referencia:
+Crear un archivo `.env` tomando como referencia `.env.example`:
 
 ```env
 PORT=3000
@@ -133,73 +110,47 @@ DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=gestion_empresas
 DB_USER=postgres
-DB_PASSWORD=CONTRASENA_LOCAL
+DB_PASSWORD=TU_CONTRASENA
 ```
 
-Reemplazar `CONTRASENA_LOCAL` por la contraseña configurada en PostgreSQL.
-
-El archivo `.env` contiene información privada y no debe subirse al repositorio.
+Reemplazar `TU_CONTRASENA` por la contraseña local de PostgreSQL.
 
 Iniciar el servidor:
 
 ```bash
-npx nodemon src/app.js
+npm run dev
 ```
 
 La API estará disponible en:
 
-```text
-http://localhost:3000
-```
+`http://localhost:3000`
 
-Para verificar su funcionamiento:
+Para comprobar su funcionamiento:
 
-```text
-http://localhost:3000/api/health
-```
-
-Para comprobar la conexión con PostgreSQL:
-
-```text
-http://localhost:3000/api/test-db
-```
+`http://localhost:3000/api/health`
 
 ### 4. Configurar el frontend
 
-Abrir otra terminal e ingresar a:
+Abrir otra terminal y ejecutar, desde la raíz del repositorio:
 
 ```bash
 cd frontend
-```
-
-Instalar dependencias:
-
-```bash
 npm install --legacy-peer-deps
-```
-
-Esta opción se utilizó durante el desarrollo para resolver un problema de instalación de dependencias con npm.
-
-Iniciar Angular:
-
-```bash
 npx ng serve --open
 ```
 
 La aplicación estará disponible en:
 
-```text
-http://localhost:4200
-```
+`http://localhost:4200`
 
-Es necesario mantener el backend y PostgreSQL ejecutándose para utilizar las funcionalidades de la aplicación.
+Para ejecutar el sistema localmente, PostgreSQL y el backend deben estar funcionando.
 
 ## Endpoints de la API
 
 | Método | Endpoint | Descripción |
 |---|---|---|
 | GET | `/api/empresas` | Obtener todas las empresas |
-| GET | `/api/empresas/:id` | Obtener una empresa por ID |
+| GET | `/api/empresas/:id` | Consultar una empresa |
 | POST | `/api/empresas` | Registrar una empresa |
 | PUT | `/api/empresas/:id` | Actualizar una empresa |
 | DELETE | `/api/empresas/:id` | Eliminar una empresa |
@@ -220,95 +171,52 @@ Es necesario mantener el backend y PostgreSQL ejecutándose para utilizar las fu
 }
 ```
 
-### Ejemplo de respuesta exitosa
+La API devuelve respuestas JSON con el resultado de la operación y utiliza códigos HTTP como `200`, `201`, `400`, `404`, `409` y `500`, según corresponda.
 
-```json
-{
-  "success": true,
-  "message": "Empresa registrada correctamente",
-  "data": {
-    "id": 1,
-    "nombre_comercial": "Empresa Demo",
-    "razon_social": "Empresa Demo S.A.",
-    "telefono": "22334455",
-    "correo_electronico": "demo@empresa.com",
-    "nit": "1234567-9",
-    "estado": "Activo",
-    "direccion": "Ciudad de Guatemala"
-  }
-}
-```
+## Validaciones y manejo de errores
 
-La respuesta real también incluye la fecha de creación.
+Las validaciones se implementan tanto en Angular como en Express.
 
-## Validaciones
+Se comprueban los campos obligatorios, los formatos permitidos, las longitudes máximas y el dígito verificador del NIT guatemalteco tradicional.
 
-El sistema implementa validaciones en frontend y backend.
+Durante la edición, el correo electrónico permanece bloqueado y el backend impide modificarlo.
 
-Se verifican los campos obligatorios, las longitudes permitidas, el formato del correo electrónico, el teléfono y el NIT.
-
-Para el NIT guatemalteco tradicional se utiliza la verificación matemática del dígito verificador. Esta comprobación no garantiza que el NIT exista o esté activo ante la SAT.
-
-Durante la edición, el correo electrónico se muestra como un campo no editable. El backend también impide su modificación.
-
-## Manejo de errores
-
-La API utiliza códigos HTTP según el resultado de cada operación:
-
-| Código | Descripción |
-|---|---|
-| 200 | Operación exitosa |
-| 201 | Registro creado |
-| 400 | Datos inválidos |
-| 404 | Recurso no encontrado |
-| 409 | Registro duplicado |
-| 500 | Error interno del servidor |
-
-El frontend muestra mensajes de validación, confirmación y errores de comunicación.
+PostgreSQL también aplica restricciones de integridad, como campos obligatorios y valores únicos para correo electrónico y NIT.
 
 ## Decisiones técnicas
 
-### Separación entre frontend y backend
+**Separación de responsabilidades:** Angular gestiona la interfaz y las interacciones del usuario, mientras Express procesa las solicitudes HTTP, valida la información y realiza las operaciones sobre PostgreSQL.
 
-Angular se encarga de la presentación y de las interacciones del usuario. Express gestiona las solicitudes HTTP, las validaciones del servidor y el acceso a la base de datos.
+**Servicios HTTP:** la comunicación con la API se centraliza en un servicio Angular para evitar duplicar código entre componentes.
 
-### PostgreSQL
+**Reactive Forms y Signals:** se utilizan para controlar formularios, validaciones y estados de la interfaz.
 
-Se seleccionó PostgreSQL por su soporte de datos relacionales, restricciones de integridad y capacidad para manejar múltiples conexiones.
+**Consultas parametrizadas:** el backend utiliza parámetros SQL para evitar concatenar directamente los valores recibidos en las consultas y reducir el riesgo de inyección SQL.
 
-### Servicios de Angular
+**Persistencia:** PostgreSQL almacena la información de las empresas, permitiendo conservar los registros entre sesiones.
 
-Las operaciones HTTP están centralizadas en `EmpresaService`, evitando duplicar lógica de comunicación en los componentes.
+## Aplicación publicada
 
-### Reactive Forms
+El sistema está desplegado en los siguientes servicios:
 
-Los formularios utilizan Reactive Forms para administrar los datos, las validaciones y el estado de los controles.
+| Componente | Plataforma |
+|---|---|
+| Frontend | Firebase Hosting |
+| Backend | Render |
+| Base de datos | Neon PostgreSQL |
 
-### Signals
+**Aplicación web:**
 
-Se utilizan Signals para gestionar estados de la interfaz, como la carga de datos, los mensajes y el listado de empresas.
+https://gestion-empresas-b28c3.web.app
 
-### Consultas parametrizadas
+**API REST:**
 
-Las consultas SQL utilizan parámetros como `$1` y `$2` para separar los valores recibidos de las instrucciones SQL y reducir el riesgo de inyección SQL.
+https://gestion-empresas-api-bv7h.onrender.com
 
-### Diseño
+**Listado de empresas (API):**
 
-Se implementó una interfaz administrativa sencilla, adaptable y consistente, siguiendo los requerimientos funcionales y los diseños de referencia proporcionados.
+https://gestion-empresas-api-bv7h.onrender.com/api/empresas
 
-## Estado del proyecto
+La aplicación publicada utiliza la API alojada en Render, conectada a PostgreSQL en Neon.
 
-- CRUD funcional en entorno local.
-- Validaciones implementadas en frontend y backend.
-- Persistencia mediante PostgreSQL.
-- Despliegue público pendiente de configuración.
-
-## Publicación
-
-**Frontend:** pendiente de publicar en Firebase Hosting.
-
-**Backend:** pendiente de publicar en un servicio compatible con Node.js.
-
-**Base de datos:** pendiente de configurar en un servicio PostgreSQL administrado.
-
-Los enlaces públicos se agregarán una vez completado el despliegue.
+*Nota:* el backend puede tardar unos segundos en responder a la primera solicitud después de un período de inactividad, dependiendo del estado del servicio de alojamiento.
