@@ -1,0 +1,95 @@
+
+<div class="pagina-detalle">
+
+  <div class="navegacion">
+    <a routerLink="/">← Volver a empresas</a>
+  </div>
+
+  <section class="detalle-contenedor">
+
+    @if (cargando()) {
+      <div class="mensaje">
+        Cargando información de la empresa...
+      </div>
+    } @else if (error()) {
+      <div class="mensaje error" role="alert">
+        {{ error() }}
+      </div>
+    } @else if (empresa(); as datos) {
+
+      <div class="detalle-encabezado">
+        <div>
+          <h1>{{ datos.nombre_comercial }}</h1>
+          <p>Información general de la empresa</p>
+        </div>
+
+        <span
+          class="estado"
+          [class.activo]="datos.estado === 'Activo'"
+          [class.inactivo]="datos.estado === 'Inactivo'">
+          {{ datos.estado }}
+        </span>
+      </div>
+
+      <div class="detalle-grid">
+
+        <div class="dato">
+          <span class="etiqueta">Nombre comercial</span>
+          <span class="valor">{{ datos.nombre_comercial }}</span>
+        </div>
+
+        <div class="dato">
+          <span class="etiqueta">Razón social</span>
+          <span class="valor">{{ datos.razon_social }}</span>
+        </div>
+
+        <div class="dato">
+          <span class="etiqueta">Teléfono</span>
+          <span class="valor">{{ datos.telefono }}</span>
+        </div>
+
+        <div class="dato">
+          <span class="etiqueta">Correo electrónico</span>
+          <span class="valor">{{ datos.correo_electronico }}</span>
+        </div>
+
+        <div class="dato">
+          <span class="etiqueta">NIT</span>
+          <span class="valor">{{ datos.nit }}</span>
+        </div>
+
+        <div class="dato">
+          <span class="etiqueta">Estado</span>
+          <span class="valor">{{ datos.estado }}</span>
+        </div>
+
+        <div class="dato ancho-completo">
+          <span class="etiqueta">Dirección</span>
+          <span class="valor">{{ datos.direccion }}</span>
+        </div>
+
+        <div class="dato ancho-completo">
+          <span class="etiqueta">Fecha de registro</span>
+          <span class="valor">
+            {{ datos.fecha_creacion | date:'dd/MM/yyyy, hh:mm a':'America/Guatemala' }}
+          </span>
+        </div>
+
+      </div>
+
+      <div class="detalle-acciones">
+        <a routerLink="/" class="btn-volver">
+          Volver al listado
+        </a>
+
+        <a
+          [routerLink]="['/empresas', datos.id, 'editar']"
+          class="btn-editar">
+          Editar empresa
+        </a>
+      </div>
+
+    }
+
+  </section>
+</div>

@@ -1,0 +1,205 @@
+
+<div class="pagina-formulario">
+
+  <div class="navegacion">
+    <a routerLink="/">← Volver a empresas</a>
+  </div>
+
+  <section class="formulario-contenedor">
+
+    <div class="formulario-encabezado">
+      <h1>
+        {{ esEdicion() ? 'Editar empresa' : 'Registrar empresa' }}
+      </h1>
+
+      <p>
+        @if (esEdicion()) {
+          Modifica los datos de la empresa seleccionada.
+        } @else {
+          Completa los datos para registrar una nueva empresa.
+        }
+      </p>
+    </div>
+
+    @if (cargando()) {
+      <div class="mensaje-carga">
+        Cargando información de la empresa...
+      </div>
+    }
+
+    @if (errorServidor()) {
+      <div class="alerta-error" role="alert">
+        {{ errorServidor() }}
+      </div>
+    }
+
+    <form
+      [formGroup]="formulario"
+      (ngSubmit)="guardar()"
+      novalidate>
+
+      <div class="campos-grid">
+
+        <div class="campo">
+          <label for="nombre_comercial">
+            Nombre comercial *
+          </label>
+
+          <input
+            id="nombre_comercial"
+            type="text"
+            formControlName="nombre_comercial"
+            maxlength="150"
+            placeholder="Nombre de la empresa"
+            [class.invalido]="campoInvalido('nombre_comercial')"
+          />
+
+          @if (campoInvalido('nombre_comercial')) {
+            <small>El nombre comercial es obligatorio.</small>
+          }
+        </div>
+
+        <div class="campo">
+          <label for="razon_social">
+            Razón social *
+          </label>
+
+          <input
+            id="razon_social"
+            type="text"
+            formControlName="razon_social"
+            maxlength="200"
+            placeholder="Razón social de la empresa"
+            [class.invalido]="campoInvalido('razon_social')"
+          />
+
+          @if (campoInvalido('razon_social')) {
+            <small>La razón social es obligatoria.</small>
+          }
+        </div>
+
+        <div class="campo">
+          <label for="telefono">
+            Teléfono *
+          </label>
+
+          <input
+            id="telefono"
+            type="tel"
+            formControlName="telefono"
+            placeholder="Ej. 22334455"
+            [class.invalido]="campoInvalido('telefono')"
+          />
+
+          @if (campoInvalido('telefono')) {
+            <small>Ingresa un teléfono válido.</small>
+          }
+        </div>
+
+        <div class="campo">
+          <label for="correo_electronico">
+            Correo electrónico *
+          </label>
+
+          <input
+            id="correo_electronico"
+            type="email"
+            formControlName="correo_electronico"
+            maxlength="150"
+            placeholder="correo@empresa.com"
+            [class.invalido]="campoInvalido('correo_electronico')"
+          />
+
+          @if (esEdicion()) {
+            <span class="ayuda-campo">
+              El correo electrónico no se puede modificar.
+            </span>
+          }
+
+          @if (campoInvalido('correo_electronico')) {
+            <small>Ingresa un correo electrónico válido.</small>
+          }
+        </div>
+
+        <div class="campo">
+          <label for="nit">
+            NIT *
+          </label>
+
+          <input
+            id="nit"
+            type="text"
+            formControlName="nit"
+            maxlength="20"
+            placeholder="Ej. 1234567-8"
+            [class.invalido]="campoInvalido('nit')"
+          />
+
+            @if (campoInvalido('nit')) {
+            <small>
+                @if (formulario.controls.nit.hasError('required')) {
+                El NIT es obligatorio.
+                } @else if (formulario.controls.nit.hasError('nitInvalido')) {
+                El NIT no es válido. Verifica el formato y el dígito verificador.
+                } @else {
+                El NIT supera la longitud permitida.
+                }
+            </small>
+            }
+        </div>
+
+        <div class="campo">
+          <label for="estado">
+            Estado *
+          </label>
+
+          <select id="estado" formControlName="estado">
+            <option value="Activo">Activo</option>
+            <option value="Inactivo">Inactivo</option>
+          </select>
+        </div>
+
+        <div class="campo ancho-completo">
+          <label for="direccion">
+            Dirección *
+          </label>
+
+          <textarea
+            id="direccion"
+            rows="3"
+            formControlName="direccion"
+            placeholder="Dirección completa de la empresa"
+            [class.invalido]="campoInvalido('direccion')"
+          ></textarea>
+
+          @if (campoInvalido('direccion')) {
+            <small>La dirección es obligatoria.</small>
+          }
+        </div>
+
+      </div>
+
+      <div class="formulario-acciones">
+
+        <a routerLink="/" class="btn-cancelar">
+          Cancelar
+        </a>
+
+        <button
+          type="submit"
+          class="btn-guardar"
+          [disabled]="guardando() || cargando() || formulario.disabled">
+
+          @if (guardando()) {
+            Guardando...
+          } @else {
+            {{ esEdicion() ? 'Guardar cambios' : 'Guardar empresa' }}
+          }
+
+        </button>
+
+      </div>
+
+    </form>
+  </section>
+</div>

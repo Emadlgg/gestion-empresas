@@ -1,0 +1,158 @@
+
+.pagina-detalle {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.navegacion {
+  margin-bottom: 20px;
+}
+
+.navegacion a {
+  color: #2563a6;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.navegacion a:hover {
+  text-decoration: underline;
+}
+
+.detalle-contenedor {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 7px;
+  padding: 30px;
+}
+
+.detalle-encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.detalle-encabezado h1 {
+  margin: 0 0 8px;
+  font-size: 25px;
+  color: #1e293b;
+}
+
+.detalle-encabezado p {
+  margin: 0;
+  color: #64748b;
+}
+
+.detalle-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+  padding: 30px 0;
+}
+
+.dato {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.etiqueta {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.valor {
+  font-size: 14px;
+  color: #1e293b;
+  overflow-wrap: anywhere;
+}
+
+.ancho-completo {
+  grid-column: 1 / -1;
+}
+
+.estado {
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.activo {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.inactivo {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.detalle-acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 22px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.btn-volver,
+.btn-editar {
+  padding: 10px 16px;
+  border-radius: 5px;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.btn-volver {
+  border: 1px solid #cbd5e1;
+  color: #334155;
+}
+
+.btn-editar {
+  background: #2563a6;
+  color: white;
+}
+
+.btn-editar:hover {
+  background: #1d4f86;
+}
+
+.mensaje {
+  text-align: center;
+  padding: 35px;
+  color: #64748b;
+}
+
+.error {
+  color: #b91c1c;
+}
+
+@media (max-width: 650px) {
+  .pagina-detalle {
+    padding: 20px 14px;
+  }
+
+  .detalle-contenedor {
+    padding: 20px;
+  }
+
+  .detalle-grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .detalle-encabezado {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .detalle-acciones {
+    flex-wrap: wrap;
+  }
+}

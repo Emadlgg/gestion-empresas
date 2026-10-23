@@ -1,0 +1,176 @@
+
+<div class="pagina">
+
+  <!-- Encabezado principal -->
+  <header class="encabezado">
+    <div>
+      <p class="subtitulo">Panel administrativo</p>
+      <h1>Gestión de Empresas</h1>
+      <p class="descripcion">
+        Administra la información de las empresas registradas.
+      </p>
+    </div>
+
+    <a routerLink="/empresas/nueva" class="btn-agregar">
+      + Nueva empresa
+    </a>
+  </header>
+
+  @if (mensajeExito()) {
+  <div class="mensaje-exito" role="status">
+    {{ mensajeExito() }}
+  </div>
+}
+
+  <!-- Listado de empresas -->
+   @if (errorOperacion()) {
+  <div class="mensaje-operacion-error" role="alert">
+    {{ errorOperacion() }}
+  </div>
+}
+  <section class="tarjeta">
+
+    <div class="tarjeta-encabezado">
+      <div>
+        <h2>Empresas registradas</h2>
+        <p>
+          {{ empresas().length }}
+          {{ empresas().length === 1
+              ? 'empresa encontrada'
+              : 'empresas encontradas' }}
+        </p>
+      </div>
+
+      <button
+        class="btn-actualizar"
+        type="button"
+        (click)="cargarEmpresas()"
+        [disabled]="cargando()">
+        Actualizar
+      </button>
+    </div>
+
+    <!-- Estado de carga -->
+    @if (cargando()) {
+      <div class="mensaje">
+        Cargando empresas...
+      </div>
+    }
+
+    <!-- Mensaje de error -->
+    @if (error()) {
+      <div class="mensaje error" role="alert">
+        {{ error() }}
+
+        <div style="margin-top: 12px;">
+          <button
+            class="btn-actualizar"
+            type="button"
+            (click)="cargarEmpresas()">
+            Reintentar
+          </button>
+        </div>
+      </div>
+    }
+
+    <!-- Contenido cuando termina la carga -->
+    @if (!cargando() && !error()) {
+
+      <!-- Sin empresas -->
+      @if (empresas().length === 0) {
+        <div class="mensaje">
+          No hay empresas registradas.
+        </div>
+      } @else {
+
+        <!-- Tabla de empresas -->
+        <div class="tabla-contenedor">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nombre comercial</th>
+                <th>Razón social</th>
+                <th>NIT</th>
+                <th>Teléfono</th>
+                <th>Correo electrónico</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (
+                empresa of empresas();
+                track empresa.id;
+                let i = $index
+              ) {
+                <tr>
+                  <td>{{ i + 1 }}</td>
+
+                  <td class="nombre">
+                    {{ empresa.nombre_comercial }}
+                  </td>
+
+                  <td>
+                    {{ empresa.razon_social }}
+                  </td>
+
+                  <td>
+                    {{ empresa.nit }}
+                  </td>
+
+                  <td>
+                    {{ empresa.telefono }}
+                  </td>
+
+                  <td>
+                    {{ empresa.correo_electronico }}
+                  </td>
+
+                  <td>
+                    <span
+                      class="estado"
+                      [class.activo]="empresa.estado === 'Activo'"
+                      [class.inactivo]="empresa.estado === 'Inactivo'">
+                      {{ empresa.estado }}
+                    </span>
+                  </td>
+
+                  <td>
+                    <div class="acciones">
+
+                      <button
+                        type="button"
+                        class="btn-ver"
+                        [routerLink]="['/empresas', empresa.id]">
+                        Ver
+                      </button>
+
+                      <button
+                        type="button"
+                        class="btn-editar"
+                        [routerLink]="['/empresas', empresa.id, 'editar']">
+                        Editar
+                      </button>
+
+                      <button
+                        type="button"
+                        class="btn-eliminar"
+                        [disabled]="eliminando()"
+                        (click)="eliminarEmpresa(empresa)">
+                        Eliminar
+                      </button>
+
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    }
+
+  </section>
+</div>
